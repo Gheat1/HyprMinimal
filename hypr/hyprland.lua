@@ -66,7 +66,7 @@ hl.config({
         gaps_out = 10,
         border_size = 2,
         col = {
-            active_border   = "rgba(bcbcc0ff)",   -- soft grey (toned down from white)
+            active_border   = "rgba(6a6a70ff)",   -- muted grey (minimal)
             inactive_border = "rgba(2a2a2eff)",   -- dark grey
         },
         resize_on_border = true,
