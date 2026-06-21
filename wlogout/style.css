@@ -1,0 +1,31 @@
+/* monochrome wlogout */
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 15px;
+  background-image: none;
+  transition: 120ms ease;
+}
+
+window {
+  background-color: rgba(10, 10, 11, 0.85);
+}
+
+button {
+  color: #8a8a90;
+  background-color: #141416;
+  border: 1px solid #2a2a2e;
+  border-radius: 14px;
+  margin: 10px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 22%;
+}
+
+button:focus,
+button:hover {
+  color: #0a0a0b;
+  background-color: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  outline: none;
+}

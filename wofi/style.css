@@ -1,0 +1,61 @@
+/* monochrome wofi */
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+}
+
+window {
+  background-color: #0d0d0f;
+  border: 1px solid #2a2a2e;
+  border-radius: 12px;
+}
+
+#outer-box {
+  margin: 12px;
+}
+
+#input {
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  border: 1px solid #2a2a2e;
+  border-radius: 8px;
+  background-color: #141416;
+  color: #e8e8e8;
+  caret-color: #e8e8e8;
+}
+
+#input:focus {
+  border: 1px solid #e8e8e8;
+}
+
+#scroll {
+  margin: 0;
+}
+
+#inner-box {
+  margin: 0;
+}
+
+#entry {
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #b4b4b8;
+}
+
+#entry image {
+  margin-right: 10px;
+}
+
+#entry:selected {
+  background-color: #e8e8e8;
+  color: #0a0a0b;
+}
+
+#entry:selected #text {
+  color: #0a0a0b;
+}
+
+#text {
+  color: #b4b4b8;
+}

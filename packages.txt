@@ -1,0 +1,43 @@
+# HyprMinimal — packages (Arch Linux)
+
+## Official repos (pacman)
+hyprland              # compositor
+kitty                 # terminal
+waybar                # status bar
+wofi                  # launcher / dmenu
+mako                  # notifications
+hyprpaper             # wallpaper
+hyprlock              # lock screen
+hypridle              # idle daemon
+grim slurp wl-clipboard   # screenshots + clipboard
+cliphist              # clipboard history
+hyprpicker            # colour picker
+wf-recorder           # screen recording
+brightnessctl         # backlight control
+playerctl             # media keys
+pavucontrol           # audio mixer
+network-manager-applet
+yt-dlp ffmpeg         # media downloader
+ttf-jetbrains-mono-nerd   # UI font
+qt6ct kvantum         # optional Qt theming (kde platform theme used by default)
+
+## ASUS ROG (g14 repo or AUR) — for the Zephyrus G16
+asusctl supergfxctl
+
+## AUR (yay)
+wlogout               # power menu
+visual-studio-code-bin    # VS Code (Microsoft build)
+# YAMIS — "Yet Another Monochrome Icon Set" (icon theme)
+
+## One-liner (repos)
+sudo pacman -S --needed hyprland kitty waybar wofi mako hyprpaper hyprlock hypridle \
+  grim slurp wl-clipboard cliphist hyprpicker wf-recorder brightnessctl playerctl \
+  pavucontrol network-manager-applet yt-dlp ffmpeg ttf-jetbrains-mono-nerd \
+  asusctl supergfxctl
+
+## AUR
+yay -S wlogout visual-studio-code-bin
+
+## Workspace overview plugin (hyprexpo)
+sudo pacman -S --needed base-devel cmake cpio
+hyprpm update && hyprpm add https://github.com/hyprwm/hyprland-plugins && hyprpm enable hyprexpo
