@@ -1,38 +1,50 @@
 #!/usr/bin/env bash
-# Overlap-free Waybar auto-hide (self-correcting).
+# Overlap-free Waybar auto-hide.
 # Waybar stays in dock mode (reserves its strip while visible, so it never
-# covers window content). We drive it to match the cursor:
-#   cursor at the very top edge -> visible ; cursor below the bar -> hidden.
+# covers window content). We toggle it with SIGUSR1 only when the cursor
+# CROSSES a threshold — edge-triggered, so it can never strobe.
 #
-# Visibility is read from the compositor (the "waybar" layer is present only
-# while shown), NOT tracked internally — so a Waybar restart can't invert it.
+#   cursor at the very top edge -> reveal ; cursor below the bar -> hide.
+#
+# State is tracked internally but resynced whenever waybar restarts (a fresh
+# waybar is always visible), so it can't get stuck inverted.
 
-reveal_zone=3      # px from the top that should reveal the bar
-hide_below=46      # px; below this the bar should be hidden
-poll=0.2           # seconds between checks
+reveal_zone=3      # px from the top that reveals the bar
+hide_below=46      # px; below this the bar hides
+poll=0.2
 
 # single instance
 pidfile="${XDG_RUNTIME_DIR:-/tmp}/waybar-autohide.pid"
 [ -f "$pidfile" ] && kill "$(cat "$pidfile")" 2>/dev/null
 echo $$ > "$pidfile"
 
-# wait for waybar, then let it install its SIGUSR1 handler (unhandled SIGUSR1
-# default-terminates the process, so signalling too early would kill it)
+# wait for waybar, then settle (unhandled SIGUSR1 default-kills the process,
+# so we must not signal before its handler is installed)
 for _ in $(seq 1 50); do pgrep -x waybar >/dev/null && break; sleep 0.2; done
 sleep 3
 
-is_visible() { hyprctl layers -j 2>/dev/null | grep -qE '"namespace":[[:space:]]*"waybar"'; }
+wpid=$(pgrep -x waybar | head -1)
+pkill -SIGUSR1 -x waybar 2>/dev/null   # waybar starts visible -> hide it
+shown=0
+want=0
 
 while true; do
+    # if waybar was restarted, it's visible again — resync without toggling
+    npid=$(pgrep -x waybar | head -1)
+    if [ -n "$npid" ] && [ "$npid" != "$wpid" ]; then
+        wpid=$npid
+        sleep 3
+        shown=1
+    fi
+
     y=$(hyprctl cursorpos -j 2>/dev/null | grep -o '"y": *[0-9-]*' | grep -o '[0-9-]*$')
     if [ -n "$y" ]; then
-        want=-1
-        if   [ "$y" -le "$reveal_zone" ]; then want=1   # reveal
-        elif [ "$y" -gt "$hide_below"  ]; then want=0   # hide
-        fi                                              # else: leave as-is
-        if [ "$want" != "-1" ]; then
-            if is_visible; then cur=1; else cur=0; fi
-            [ "$want" != "$cur" ] && pkill -SIGUSR1 -x waybar 2>/dev/null
+        if   [ "$y" -le "$reveal_zone" ]; then want=1
+        elif [ "$y" -gt "$hide_below"  ]; then want=0
+        fi
+        if [ "$want" != "$shown" ]; then
+            pkill -SIGUSR1 -x waybar 2>/dev/null
+            shown=$want
         fi
     fi
     sleep "$poll"
