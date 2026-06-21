@@ -122,6 +122,7 @@ hl.animation({ leaf = "windows",    enabled = true, speed = 6,   bezier = "snapp
 hl.animation({ leaf = "border",     enabled = true, speed = 8,   bezier = "smooth" })
 hl.animation({ leaf = "fade",       enabled = true, speed = 7,   bezier = "smooth" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 6,   bezier = "smooth", style = "slide" })
+hl.animation({ leaf = "layers",     enabled = true, speed = 5,   bezier = "smooth", style = "slide" })
 
 ---------------------------------------------------------------
 --  INPUT
