@@ -42,8 +42,8 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --watch cliphist store")   -- clipboard history daemon
     hl.exec_cmd("hyprpm reload -n")                  -- load plugins (hyprexpo) if installed
     hl.exec_cmd("/opt/ghelper/ghelper")              -- G-Helper (ASUS control) -> tray
-    -- waybar auto-hide disabled (was killing waybar at boot). Re-enable with:
-    -- hl.exec_cmd("$HOME/.config/waybar/scripts/autohide.sh")
+    -- overlap-free waybar auto-hide; delayed start so waybar is fully up first
+    hl.exec_cmd("sleep 5 && $HOME/.config/waybar/scripts/autohide.sh")
 end)
 
 ---------------------------------------------------------------
