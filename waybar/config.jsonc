@@ -9,7 +9,17 @@
 
   "modules-left": ["custom/tools", "hyprland/workspaces", "hyprland/window"],
   "modules-center": ["clock"],
-  "modules-right": ["tray", "custom/profile", "backlight", "pulseaudio", "network", "battery"],
+  "modules-right": ["tray", "custom/profile", "custom/brightness", "pulseaudio", "network", "battery"],
+
+  "custom/brightness": {
+    "exec": "~/.config/hypr/scripts/brightness.sh status",
+    "return-type": "json",
+    "interval": "once",
+    "signal": 8,
+    "format": "{}",
+    "on-scroll-up": "~/.config/hypr/scripts/brightness.sh up",
+    "on-scroll-down": "~/.config/hypr/scripts/brightness.sh down"
+  },
 
   "custom/tools": {
     "format": "",
@@ -17,14 +27,6 @@
     "on-click": "~/.config/hypr/scripts/tools-menu.sh"
   },
 
-  "backlight": {
-    "device": "intel_backlight",
-    "format": "{icon} {percent}%",
-    "format-icons": ["󰃞", "󰃟", "󰃠"],
-    "on-scroll-up": "brightnessctl set 5%+",
-    "on-scroll-down": "brightnessctl set 5%-",
-    "tooltip": false
-  },
 
   "custom/profile": {
     "exec": "~/.config/waybar/scripts/profile.sh status",

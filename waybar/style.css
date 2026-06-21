@@ -21,7 +21,7 @@ window#waybar {
 #pulseaudio,
 #network,
 #battery,
-#backlight,
+#custom-brightness,
 #custom-profile,
 #tray {
   background: #141416;
@@ -99,7 +99,7 @@ window#waybar.empty #window {
   background: #d04040;
 }
 
-#backlight {
+#custom-brightness {
   margin-left: 4px;
   color: #d4d4d6;
 }

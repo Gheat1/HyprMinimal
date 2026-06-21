@@ -42,6 +42,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("wl-paste --watch cliphist store")   -- clipboard history daemon
     hl.exec_cmd("hyprpm reload -n")                  -- load plugins (hyprexpo) if installed
     hl.exec_cmd("/opt/ghelper/ghelper")              -- G-Helper (ASUS control) -> tray
+    hl.exec_cmd("wl-gammarelay-rs")                  -- software brightness/gamma daemon (OLED-safe dimming)
     -- overlap-free waybar auto-hide; delayed start so waybar is fully up first
     hl.exec_cmd("sleep 5 && $HOME/.config/waybar/scripts/autohide.sh")
 end)
@@ -228,8 +229,8 @@ hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_S
 hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true })
 
 -- brightness
-hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/brightness.sh up"),   { locked = true, repeating = true })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/brightness.sh down"), { locked = true, repeating = true })
 
 -- media
 hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
