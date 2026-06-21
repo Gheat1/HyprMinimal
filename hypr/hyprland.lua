@@ -179,7 +179,7 @@ hl.bind(mod .. " + T",     hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/tools-men
 hl.bind(mod .. " + slash", hl.dsp.exec_cmd("kitty --class keybinds-help -e \"$HOME/.config/hypr/scripts/keybinds.sh\""))
 
 -- OLED care
-hl.bind(mod .. " + O",         hl.dsp.exec_cmd("hyprctl dispatch dpms off"))   -- blank screen (wakes on input)
+hl.bind(mod .. " + O",         hl.dsp.dpms("off"))   -- blank screen (wakes on input)
 hl.bind(mod .. " + SHIFT + O", hl.dsp.exec_cmd("kitty --class oled-refresh --start-as=fullscreen -e \"$HOME/.config/hypr/scripts/oled-refresh.sh\" 30"))  -- pixel-refresh wash
 
 -- window management
