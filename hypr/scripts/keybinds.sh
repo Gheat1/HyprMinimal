@@ -45,7 +45,6 @@ cat <<'EOF'
    Super + Shift + R      Screen record region (toggle)
 
    OLED CARE
-   Super + O              Blank screen
    Super + Shift + O      Pixel-refresh wash
 
    HARDWARE KEYS

@@ -10,7 +10,6 @@ options=(
 " Clipboard history"
 " OLED pixel refresh"
 " Performance profile"
-" Blank screen"
 " Lock screen"
 " Power menu"
 " Help — keybinds"
@@ -27,7 +26,6 @@ case "$choice" in
     *"Clipboard history"*)  cliphist list | wofi --dmenu | cliphist decode | wl-copy ;;
     *"OLED pixel refresh"*) kitty --class oled-refresh --start-as=fullscreen -e "$HOME/.config/hypr/scripts/oled-refresh.sh" 30 ;;
     *"Performance profile"*) "$HOME/.config/waybar/scripts/profile.sh" next ;;
-    *"Blank screen"*)       hyprctl dispatch "hl.dsp.dpms('off')" ;;
     *"Lock screen"*)        hyprlock ;;
     *"Power menu"*)         wlogout -b 5 ;;
     *"Help"*)               kitty --class keybinds-help -e "$HOME/.config/hypr/scripts/keybinds.sh" ;;
