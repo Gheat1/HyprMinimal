@@ -40,11 +40,12 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hypridle")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("wl-paste --watch cliphist store")   -- clipboard history daemon
-    hl.exec_cmd("hyprpm reload -n")                  -- load plugins (hyprexpo) if installed
     hl.exec_cmd("/opt/ghelper/ghelper")              -- G-Helper (ASUS control) -> tray
-    hl.exec_cmd("wl-gammarelay-rs")                  -- software brightness/gamma daemon (OLED-safe dimming)
-    -- overlap-free waybar auto-hide; delayed start so waybar is fully up first
-    hl.exec_cmd("sleep 5 && $HOME/.config/waybar/scripts/autohide.sh")
+    -- DISABLED while debugging a black-screen-on-login:
+    --   * wl-gammarelay-rs (gamma daemon) can blank the panel if it applies a bad ramp
+    --   * waybar auto-hide made an empty near-black workspace look like a dead screen
+    -- hl.exec_cmd("wl-gammarelay-rs")
+    -- hl.exec_cmd("sleep 5 && $HOME/.config/waybar/scripts/autohide.sh")
 end)
 
 ---------------------------------------------------------------
