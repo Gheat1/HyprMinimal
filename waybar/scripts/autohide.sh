@@ -14,8 +14,11 @@ pidfile="${XDG_RUNTIME_DIR:-/tmp}/waybar-autohide.pid"
 [ -f "$pidfile" ] && kill "$(cat "$pidfile")" 2>/dev/null
 echo $$ > "$pidfile"
 
-# wait for waybar, then start hidden
-for _ in $(seq 1 20); do pgrep -x waybar >/dev/null && break; sleep 0.2; done
+# wait for waybar to exist, then give it time to install its SIGUSR1 handler.
+# (an unhandled SIGUSR1 default-terminates the process, so signalling too early
+#  at boot would kill waybar — hence the extra settle delay.)
+for _ in $(seq 1 50); do pgrep -x waybar >/dev/null && break; sleep 0.2; done
+sleep 3
 pkill -SIGUSR1 -x waybar 2>/dev/null
 shown=0
 
