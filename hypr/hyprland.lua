@@ -171,6 +171,9 @@ hl.bind(mod .. " + grave", hl.dsp.exec_raw("hyprexpo:expo", "toggle"))
 -- G-Helper (ASUS control panel)
 hl.bind(mod .. " + G", hl.dsp.exec_cmd("/opt/ghelper/ghelper"))
 
+-- restart bar + auto-hide watcher (saves copy-pasting the restart command)
+hl.bind(mod .. " + SHIFT + B", hl.dsp.exec_cmd("$HOME/.config/waybar/scripts/restart-bar.sh"))
+
 -- tools menu + keybinds help
 hl.bind(mod .. " + T",     hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/tools-menu.sh"))
 hl.bind(mod .. " + slash", hl.dsp.exec_cmd("kitty --class keybinds-help -e \"$HOME/.config/hypr/scripts/keybinds.sh\""))
