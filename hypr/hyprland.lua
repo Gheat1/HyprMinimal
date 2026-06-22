@@ -34,6 +34,12 @@ hl.monitor({
 --  AUTOSTART
 ---------------------------------------------------------------
 hl.on("hyprland.start", function()
+    -- Screensharing: export the Wayland env to systemd/dbus and bring up
+    -- graphical-session.target (via hyprland-session.target) so xdg-desktop-portal
+    -- can start. Without this, Google Meet/OBS screencapture hangs. See
+    -- ~/.config/systemd/user/hyprland-session.target and ~/.config/xdg-desktop-portal/portals.conf
+    hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP")
+    hl.exec_cmd("systemctl --user start hyprland-session.target")
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
@@ -41,11 +47,11 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("wl-paste --watch cliphist store")   -- clipboard history daemon
     hl.exec_cmd("/opt/ghelper/ghelper")              -- G-Helper (ASUS control) -> tray
-    -- DISABLED while debugging a black-screen-on-login:
-    --   * wl-gammarelay-rs (gamma daemon) can blank the panel if it applies a bad ramp
-    --   * waybar auto-hide made an empty near-black workspace look like a dead screen
+    -- waybar auto-hide: edge-triggered cursor watcher (reveal at top edge, hide below).
+    -- Starts after waybar so its SIGUSR1 handler is installed first.
+    hl.exec_cmd("$HOME/.config/waybar/scripts/autohide.sh")
+    -- DISABLED: wl-gammarelay-rs (gamma daemon) can blank the panel with a bad ramp.
     -- hl.exec_cmd("wl-gammarelay-rs")
-    -- hl.exec_cmd("sleep 5 && $HOME/.config/waybar/scripts/autohide.sh")
 end)
 
 ---------------------------------------------------------------

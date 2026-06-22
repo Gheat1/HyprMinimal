@@ -8,7 +8,7 @@ CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 echo ":: Installing HyprMinimal into $CONF"
 
-mkdir -p "$CONF"/{hypr/scripts,waybar/scripts,wofi,mako,wlogout,Code/User,gtk-3.0,gtk-4.0} \
+mkdir -p "$CONF"/{hypr/scripts,waybar/scripts,wofi,mako,wlogout,Code/User,gtk-3.0,gtk-4.0,xdg-desktop-portal,systemd/user} \
          "$HOME/.local/share/color-schemes"
 
 # Hyprland
@@ -23,6 +23,13 @@ cp "$DIR"/waybar/scripts/*.sh "$CONF/waybar/scripts/"
 cp "$DIR"/wofi/config "$DIR"/wofi/style.css "$CONF/wofi/"
 cp "$DIR"/mako/config "$CONF/mako/"
 cp "$DIR"/wlogout/layout "$DIR"/wlogout/style.css "$CONF/wlogout/"
+
+# Screensharing: portal backend routing + session target.
+# Routes screencast to xdg-desktop-portal-hyprland (so the KDE portal can't grab
+# and hang it), and brings up graphical-session.target on this non-UWSM session so
+# the portal can start. Needs: pipewire wireplumber xdg-desktop-portal-hyprland.
+cp "$DIR"/portal/portals.conf            "$CONF/xdg-desktop-portal/"
+cp "$DIR"/systemd/hyprland-session.target "$CONF/systemd/user/"
 
 # VS Code + KDE/Qt color scheme + GTK
 cp "$DIR"/vscode/settings.json "$CONF/Code/User/settings.json"

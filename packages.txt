@@ -18,6 +18,8 @@ playerctl             # media keys
 pavucontrol           # audio mixer
 network-manager-applet
 yt-dlp ffmpeg         # media downloader
+pipewire wireplumber              # audio/video streams (screensharing)
+xdg-desktop-portal-hyprland       # screencast portal (Google Meet, OBS)
 ttf-jetbrains-mono-nerd   # UI font
 qt6ct kvantum         # optional Qt theming (kde platform theme used by default)
 
@@ -33,6 +35,7 @@ visual-studio-code-bin    # VS Code (Microsoft build)
 sudo pacman -S --needed hyprland kitty waybar wofi mako hyprpaper hyprlock hypridle \
   grim slurp wl-clipboard cliphist hyprpicker wf-recorder brightnessctl playerctl \
   pavucontrol network-manager-applet yt-dlp ffmpeg ttf-jetbrains-mono-nerd \
+  pipewire wireplumber xdg-desktop-portal-hyprland \
   asusctl supergfxctl
 
 ## AUR

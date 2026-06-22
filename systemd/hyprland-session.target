@@ -1,0 +1,13 @@
+# Brings graphical-session.target up on a plain (non-UWSM) Hyprland session.
+#
+# graphical-session.target is RefuseManualStart (can only be activated as a
+# dependency), and nothing here activates it -> xdg-desktop-portal, which has
+# Requisite=graphical-session.target, could never start -> no screensharing.
+#
+# Starting THIS target pulls graphical-session.target active as a dependency
+# (permitted), satisfying the portal's requirement. Hyprland starts this target
+# on login (see the start hook in hyprland.lua).
+[Unit]
+Description=Hyprland session
+Wants=graphical-session.target
+After=graphical-session.target
