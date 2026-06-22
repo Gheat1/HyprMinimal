@@ -14,6 +14,7 @@ cliphist              # clipboard history
 hyprpicker            # colour picker
 wf-recorder           # screen recording
 brightnessctl         # backlight control
+swayosd                # on-screen volume/brightness slider (OSD)
 playerctl             # media keys
 pavucontrol           # audio mixer
 network-manager-applet
@@ -35,7 +36,7 @@ visual-studio-code-bin    # VS Code (Microsoft build)
 sudo pacman -S --needed hyprland kitty waybar wofi mako hyprpaper hyprlock hypridle \
   grim slurp wl-clipboard cliphist hyprpicker wf-recorder brightnessctl playerctl \
   pavucontrol network-manager-applet yt-dlp ffmpeg ttf-jetbrains-mono-nerd \
-  pipewire wireplumber xdg-desktop-portal-hyprland \
+  pipewire wireplumber xdg-desktop-portal-hyprland swayosd \
   asusctl supergfxctl
 
 ## AUR

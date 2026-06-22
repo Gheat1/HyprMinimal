@@ -33,10 +33,11 @@ cat <<'EOF'
    Super + Shift + 1..0   Move window to workspace
    Super + `              Workspace overview (expo)
    Super + S              Scratchpad (toggle)
-   Super + Shift + S      Move window to scratchpad
+   Super + minus          Move window to scratchpad
    Super + scroll         Cycle workspaces
 
    CAPTURE & CLIPBOARD
+   Screenshot key         Region -> ~/Pictures + clipboard  (= Super+Shift+S)
    Print                  Screenshot region -> clipboard
    Shift + Print          Screenshot full -> clipboard
    Super + Print          Screenshot region -> ~/Pictures

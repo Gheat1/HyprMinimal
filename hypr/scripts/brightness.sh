@@ -23,6 +23,12 @@ esac
 if [ "${1:-status}" != "status" ]; then
     brightnessctl -q set "${pct}%"
     pkill -RTMIN+$SIGNAL -x waybar 2>/dev/null
+    # show the on-screen slider (display only — the value is already set above,
+    # so swayosd just draws the OSD and never touches the backlight or the floor)
+    if command -v swayosd-client >/dev/null; then
+        swayosd-client --custom-progress "$(awk "BEGIN{printf \"%.2f\", $pct/100}")" \
+                       --custom-icon display-brightness-symbolic 2>/dev/null &
+    fi
 fi
 
 icon="󰃞"; (( pct >= 34 )) && icon="󰃟"; (( pct >= 67 )) && icon="󰃠"

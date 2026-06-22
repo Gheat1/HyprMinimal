@@ -43,6 +43,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
+    hl.exec_cmd("swayosd-server --style $HOME/.config/swayosd/style.css")  -- volume/brightness OSD
     hl.exec_cmd("hypridle")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("wl-paste --watch cliphist store")   -- clipboard history daemon
@@ -216,9 +217,10 @@ for i = 1, 10 do
     hl.bind(mod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- scratchpad
+-- scratchpad  (Super+Shift+S was moved to Super+minus because the laptop's
+-- dedicated screenshot key emits Super+Shift+S — that now screenshots, see below)
 hl.bind(mod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mod .. " + minus",     hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- workspace scroll
 hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
@@ -232,12 +234,15 @@ hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 hl.bind("Print",             hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
 hl.bind("SHIFT + Print",     hl.dsp.exec_cmd("grim - | wl-copy"))
 hl.bind(mod .. " + Print",   hl.dsp.exec_cmd("grim -g \"$(slurp)\" \"$HOME/Pictures/shot-$(date +%s).png\""))
+-- laptop's dedicated screenshot key (it emits Super+Shift+S, the Windows snip
+-- shortcut): region select -> save to ~/Pictures AND copy to clipboard
+hl.bind(mod .. " + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | tee \"$HOME/Pictures/shot-$(date +%s).png\" | wl-copy"))
 
 -- volume / mic
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("swayosd-client --output-volume raise --max-volume 100"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("swayosd-client --output-volume lower"),                  { locked = true, repeating = true })
+hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("swayosd-client --output-volume mute-toggle"),            { locked = true })
+hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("swayosd-client --input-volume mute-toggle"),             { locked = true })
 
 -- brightness
 hl.bind("XF86MonBrightnessUp",   hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/brightness.sh up"),   { locked = true, repeating = true })

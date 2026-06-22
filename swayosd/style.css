@@ -1,0 +1,38 @@
+/* HyprMinimal — monochrome OSD (volume / brightness slider) */
+
+window {
+    border-radius: 16px;
+    border: 1px solid rgba(106, 106, 112, 0.6);   /* matches the window border grey */
+    background-color: rgba(20, 20, 22, 0.92);      /* near-black, slightly translucent */
+    box-shadow: none;
+}
+
+#container {
+    margin: 16px 20px;
+}
+
+image,
+label {
+    color: #e0e0e0;
+}
+
+progressbar {
+    min-height: 6px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+}
+
+trough {
+    min-height: 6px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.14);   /* unfilled track */
+    border: none;
+}
+
+progress {
+    min-height: 6px;
+    border-radius: 999px;
+    background-color: #e0e0e0;                      /* filled = soft white */
+    border: none;
+}
