@@ -8,7 +8,7 @@ CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 echo ":: Installing HyprMinimal into $CONF"
 
-mkdir -p "$CONF"/{hypr/scripts,waybar/scripts,wofi,mako,wlogout,Code/User,gtk-3.0,gtk-4.0,xdg-desktop-portal,systemd/user,swayosd} \
+mkdir -p "$CONF"/{hypr/scripts,waybar/scripts,wofi,mako,wlogout,Code/User,gtk-3.0,gtk-4.0,xdg-desktop-portal,systemd/user,swayosd,kitty} \
          "$HOME/.local/share/color-schemes"
 
 # Hyprland
@@ -21,6 +21,9 @@ cp "$DIR"/waybar/scripts/*.sh "$CONF/waybar/scripts/"
 
 # swayosd (on-screen volume/brightness slider)
 cp "$DIR"/swayosd/style.css "$CONF/swayosd/"
+
+# kitty (monochrome dark-grey theme)
+cp "$DIR"/kitty/kitty.conf "$DIR"/kitty/monochrome.conf "$CONF/kitty/"
 
 # wofi / mako / wlogout
 cp "$DIR"/wofi/config "$DIR"/wofi/style.css "$CONF/wofi/"
