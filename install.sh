@@ -42,6 +42,8 @@ cp "$DIR"/vscode/settings.json "$CONF/Code/User/settings.json"
 cp "$DIR"/kde/Monochrome.colors "$HOME/.local/share/color-schemes/"
 cp "$DIR"/gtk/gtk-3.0-settings.ini "$CONF/gtk-3.0/settings.ini"
 cp "$DIR"/gtk/gtk-4.0-settings.ini "$CONF/gtk-4.0/settings.ini"
+cp "$DIR"/gtk/gtk-3.0.css "$CONF/gtk-3.0/gtk.css"
+cp "$DIR"/gtk/gtk-4.0.css "$CONF/gtk-4.0/gtk.css"
 
 chmod +x "$CONF"/hypr/scripts/*.sh "$CONF"/waybar/scripts/*.sh
 
