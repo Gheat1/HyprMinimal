@@ -43,7 +43,7 @@ HyprMinimal is a fully themed, opinionated Hyprland dotfile set built around a s
 
 - **Lua config** — uses Hyprland's `hyprland.lua` API (Hyprland 0.55+) instead of the legacy `hyprland.conf` format. Variables, loops, and functions keep the config DRY and readable.
 - **OLED-first** — built for the G16's 2560×1600 240 Hz OLED panel. Dedicated burn-in mitigations are baked in at every layer (see [OLED Care](#oled-care)).
-- **Full-stack theming** — the monochrome palette flows through Waybar, wofi, mako, wlogout, GTK (Adwaita-dark), a custom KDE/Qt colour scheme (`Monochrome.colors`) for Dolphin and Qt apps, the YAMIS icon theme, and a hand-tuned VS Code `settings.json` with monochrome syntax highlighting.
+- **Full-stack theming** — the monochrome palette flows through Waybar, wofi, mako, wlogout, GTK (Adwaita-dark), a custom KDE/Qt colour scheme (`Monochrome.colors`) for Dolphin and Qt apps, the YAMIS icon theme, a hand-tuned VS Code `settings.json` with monochrome syntax highlighting, and a self-contained Obsidian `Monochrome` theme.
 - **ASUS ROG integration** — works alongside G-Helper (Linux), `asusctl`, and `supergfxctl` for fan/power profiles and GPU switching. A Waybar module shows the current performance profile and lets you cycle it with a click.
 
 ---
@@ -101,6 +101,7 @@ All packages are listed in [`packages.txt`](packages.txt). A summary by group:
 | `network-manager-applet` | Wi-Fi tray applet |
 | `yt-dlp` + `ffmpeg` | Media downloader |
 | `ttf-jetbrains-mono-nerd` | UI font |
+| `obsidian` | Notes (themed via `obsidian/Monochrome`) |
 
 ### ASUS ROG (g14 community repo or AUR)
 

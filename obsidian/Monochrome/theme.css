@@ -1,0 +1,267 @@
+/* ============================================================================
+ * HyprMinimal — Monochrome theme for Obsidian
+ * ----------------------------------------------------------------------------
+ * Dark-grey, no-colour palette matching the kitty / waybar / GTK / KDE / VS Code
+ * "Monochrome" scheme. Background is dark grey (#141416), not pure black.
+ *
+ *   chrome  #101012   content #141416   alt #1a1a1d   raised #1d1d20
+ *   sel #2f2f34   text #d4d4d6   bright #e8e8e8   white #f2f2f2
+ *   muted #8a8a90   faint #5a5a60   line-nums #45454a   accent(red) #d04040
+ *
+ * Built on Obsidian's CSS-variable system: remapping the --color-base-* scale
+ * cascades the greyscale through (almost) every surface; targeted semantic
+ * overrides handle the rest. Dark mode only — that's the whole point.
+ * ========================================================================== */
+
+.theme-dark {
+  /* --- base greyscale ramp (00 = darkest bg → 100 = brightest text) ------- */
+  --color-base-00: #141416;   /* primary background (editor)        */
+  --color-base-05: #101012;   /* secondary background (sidebars)    */
+  --color-base-10: #1a1a1d;   /* hover / line highlight             */
+  --color-base-20: #1d1d20;   /* raised surfaces (inputs, modals)   */
+  --color-base-25: #26262a;   /* active selection                   */
+  --color-base-30: #2f2f34;   /* borders / selection                */
+  --color-base-35: #3a3a40;
+  --color-base-40: #45454a;
+  --color-base-50: #5a5a60;   /* faint text / icons                 */
+  --color-base-60: #6e6e74;
+  --color-base-70: #8a8a90;   /* muted text                         */
+  --color-base-100: #d4d4d6;  /* normal text                        */
+
+  /* --- accent: a flat light grey (no hue), so nothing pops in colour ------ */
+  --accent-h: 240;
+  --accent-s: 4%;
+  --accent-l: 72%;            /* ≈ #b4b4b8 */
+
+  /* --- backgrounds -------------------------------------------------------- */
+  --background-primary: #141416;
+  --background-primary-alt: #1a1a1d;
+  --background-secondary: #101012;
+  --background-secondary-alt: #1d1d20;
+  --background-modifier-border: #1d1d20;
+  --background-modifier-border-hover: #2f2f34;
+  --background-modifier-border-focus: #5a5a60;
+  --background-modifier-hover: #1a1a1d;
+  --background-modifier-active-hover: #26262a;
+  --background-modifier-form-field: #1d1d20;
+
+  /* --- text --------------------------------------------------------------- */
+  --text-normal: #d4d4d6;
+  --text-muted: #8a8a90;
+  --text-faint: #5a5a60;
+  --text-on-accent: #141416;
+  --text-on-accent-inverted: #141416;
+  --text-accent: #e8e8e8;          /* links — bright grey, not blue */
+  --text-accent-hover: #ffffff;
+  --text-selection: #2f2f34;
+  --text-highlight-bg: #3a3a40;
+
+  /* --- interactive (buttons, toggles, accents) ---------------------------- */
+  --interactive-normal: #1d1d20;
+  --interactive-hover: #26262a;
+  --interactive-accent: #e8e8e8;   /* CTA fill — bright grey on dark text */
+  --interactive-accent-hover: #ffffff;
+  --interactive-accent-hsl: 240, 4%, 91%;
+
+  /* --- chrome details ----------------------------------------------------- */
+  --titlebar-background: #101012;
+  --titlebar-background-focused: #101012;
+  --titlebar-text-color-focused: #d4d4d6;
+  --tab-outline-color: #1d1d20;
+  --divider-color: #1d1d20;
+  --scrollbar-thumb-bg: #5a5a6033;
+  --scrollbar-active-thumb-bg: #5a5a6099;
+  --scrollbar-bg: transparent;
+
+  /* --- code --------------------------------------------------------------- */
+  --code-background: #1d1d20;
+  --code-normal: #cdcdd2;
+  --code-comment: #56565c;
+  --code-keyword: #f2f2f2;
+  --code-function: #ededf0;
+  --code-string: #a6a6ac;
+  --code-value: #9a9aa0;
+  --code-property: #d4d4d6;
+  --code-operator: #8a8a90;
+  --code-tag: #e8e8e8;
+  --code-punctuation: #8a8a90;
+
+  /* --- caret / selection -------------------------------------------------- */
+  --caret-color: #e8e8e8;
+  --color-accent: #b4b4b8;
+  --color-accent-1: #c0c0c4;
+  --color-accent-2: #9a9aa0;
+}
+
+/* Headings — bright + bold, scaling weight by depth (grey "depth" like the
+ * VS Code syntax theme) instead of the usual rainbow heading colours. */
+.theme-dark {
+  --h1-color: #f2f2f2;
+  --h2-color: #e8e8e8;
+  --h3-color: #d4d4d6;
+  --h4-color: #c0c0c4;
+  --h5-color: #b4b4b8;
+  --h6-color: #8a8a90;
+  --h1-weight: 700;
+  --h2-weight: 700;
+  --h3-weight: 600;
+  --bold-color: #f2f2f2;
+  --italic-color: #d4d4d6;
+}
+
+/* Inline code: raised chip matching the rest of the rig. */
+.theme-dark :not(pre) > code {
+  background: #1d1d20;
+  color: #cdcdd2;
+  border: 1px solid #26262a;
+}
+
+/* Links: bright grey, underlined on hover — readable, never blue. */
+.theme-dark a,
+.theme-dark .cm-hmd-internal-link,
+.theme-dark .internal-link {
+  color: #e8e8e8;
+  text-decoration: none;
+}
+.theme-dark a:hover,
+.theme-dark .cm-hmd-internal-link:hover,
+.theme-dark .internal-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Tags: muted grey pills rather than coloured. */
+.theme-dark a.tag {
+  background: #1d1d20;
+  color: #b4b4b8;
+  border: 1px solid #26262a;
+}
+
+/* The single allowed accent (#d04040, same red as kitty color1) is reserved
+ * for genuine errors / destructive actions only. */
+.theme-dark {
+  --text-error: #d04040;
+  --background-modifier-error: #d0404033;
+  --background-modifier-error-hover: #d0404055;
+  --text-error-hover: #e05656;
+  --color-red: #d04040;
+}
+
+/* Graph view: greyscale nodes/links so the graph stays monochrome too. */
+.theme-dark {
+  --graph-line: #2f2f34;
+  --graph-node: #8a8a90;
+  --graph-node-focused: #e8e8e8;
+  --graph-node-tag: #b4b4b8;
+  --graph-node-attachment: #6e6e74;
+  --graph-node-unresolved: #5a5a60;
+}
+
+/* Monospace to match the rest of the desktop (JetBrainsMono Nerd Font). */
+.theme-dark {
+  --font-monospace-theme: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+}
+
+/* Active line / selection in the editor. */
+.theme-dark .cm-active.cm-line,
+.theme-dark .cm-active.HyperMD-header {
+  background: #1a1a1d;
+}
+.theme-dark .cm-selectionBackground,
+.theme-dark ::selection {
+  background: #2f2f34;
+}
+
+/* ============================================================================
+ * Clean layout — calmer, flatter surfaces (theme-agnostic, light + dark).
+ * Strips chrome noise so the note is the only thing with weight: frameless
+ * tabs, transparent ribbon/status bar, borderless panes, a quiet file tree,
+ * thin scrollbars, and more breathing room around the text.
+ * ========================================================================== */
+.app-container {
+  --divider-width: 0px;          /* no hard lines between panes      */
+  --divider-width-hover: 3px;
+  --tab-outline-width: 0px;
+  --ribbon-background: transparent;
+  --titlebar-background: transparent;
+  --titlebar-background-focused: transparent;
+  --header-height: 36px;
+  --nav-item-size: 14px;
+  --nav-item-padding: 4px 12px;
+  --file-line-width: 720px;      /* readable measure                 */
+  --scrollbar-thumb-bg: #5a5a6022;
+}
+
+/* Tabs: flat, frameless, no slab background — active marked by a thin
+ * top accent only (mirrors the VS Code tab.activeBorderTop). */
+.workspace-tab-header-container {
+  background: transparent;
+  border-bottom: 1px solid #1d1d20;
+}
+.workspace-tab-header { background: transparent; }
+.workspace-tab-header-inner { padding: 4px 10px; }
+.workspace .mod-root .workspace-tab-header.is-active {
+  box-shadow: inset 0 2px 0 0 #e8e8e8;
+}
+.workspace .mod-root .workspace-tab-header:not(.is-active) .workspace-tab-header-inner-title {
+  color: #5a5a60;
+}
+/* Close button only appears on hover — less visual chatter. */
+.workspace-tab-header .workspace-tab-header-inner-close-button { opacity: 0; }
+.workspace-tab-header:hover .workspace-tab-header-inner-close-button { opacity: 1; }
+
+/* Ribbon + status bar: dissolve into the background, mute their contents. */
+.workspace-ribbon.mod-left {
+  background: transparent;
+  border-right: none;
+}
+.workspace-ribbon::before { display: none; }   /* drop the divider line */
+.status-bar {
+  background: transparent;
+  border-top: 1px solid #1d1d20;
+  color: #5a5a60;
+  font-size: 12px;
+}
+.status-bar .status-bar-item { color: #5a5a60; }
+
+/* Sidebars: borderless, same dark chrome. */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split { border: none; }
+.workspace-tabs .workspace-leaf-content[data-type="search"] .workspace-leaf-content,
+.nav-files-container { border: none; }
+
+/* File tree: quiet rows, collapse arrows fade in on hover only. */
+.nav-file-title,
+.nav-folder-title { border-radius: 6px; }
+.nav-file-title.is-active,
+.nav-folder-title.is-active { background: #26262a; }
+.tree-item-self .collapse-icon { opacity: 0; transition: opacity 80ms ease; }
+.tree-item-self:hover .collapse-icon,
+.tree-item-self.is-collapsed .collapse-icon { opacity: 0.6; }
+.nav-folder-title-content { color: #b4b4b8; }
+
+/* View header (the per-note title bar): flat, no background slab. */
+.view-header { background: transparent; border-bottom: none; }
+.view-header-title-container { color: #8a8a90; }
+
+/* Inline title + headings: generous space above so sections breathe. */
+.inline-title { font-weight: 700; color: #f2f2f2; margin-bottom: 0.4em; }
+.markdown-rendered h1,
+.markdown-rendered h2,
+.markdown-rendered h3 { margin-top: 1.4em; }
+
+/* Thin, unobtrusive scrollbars. */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb {
+  background: #5a5a6022;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { background: #5a5a6055; }
+
+/* Flatten the prompt / quick-switcher / command palette into one calm card. */
+.prompt {
+  background: #1d1d20;
+  border: 1px solid #2f2f34;
+  box-shadow: 0 8px 32px #00000066;
+}
+.suggestion-item.is-selected { background: #26262a; }

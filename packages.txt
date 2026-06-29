@@ -30,6 +30,7 @@ asusctl supergfxctl
 ## AUR (yay)
 wlogout               # power menu
 visual-studio-code-bin    # VS Code (Microsoft build)
+obsidian                  # notes (themed via obsidian/Monochrome)
 # YAMIS — "Yet Another Monochrome Icon Set" (icon theme)
 
 ## One-liner (repos)

@@ -45,6 +45,42 @@ cp "$DIR"/gtk/gtk-4.0-settings.ini "$CONF/gtk-4.0/settings.ini"
 cp "$DIR"/gtk/gtk-3.0.css "$CONF/gtk-3.0/gtk.css"
 cp "$DIR"/gtk/gtk-4.0.css "$CONF/gtk-4.0/gtk.css"
 
+# Obsidian (Monochrome theme) — installed into every registered vault.
+# Vault paths are read from Obsidian's vault registry (obsidian.json); the
+# theme is copied into <vault>/.obsidian/themes/Monochrome and selected as the
+# active theme, preserving any other appearance.json settings.
+OBS_JSON="$CONF/obsidian/obsidian.json"
+if [ -f "$OBS_JSON" ] && command -v python3 >/dev/null; then
+    python3 - "$OBS_JSON" "$DIR/obsidian/Monochrome" <<'PY'
+import json, os, shutil, sys
+reg, src = sys.argv[1], sys.argv[2]
+try:
+    vaults = json.load(open(reg)).get("vaults", {})
+except Exception:
+    vaults = {}
+for v in vaults.values():
+    path = v.get("path")
+    if not path or not os.path.isdir(path):
+        continue
+    dst = os.path.join(path, ".obsidian", "themes", "Monochrome")
+    os.makedirs(dst, exist_ok=True)
+    for f in ("manifest.json", "theme.css"):
+        shutil.copy(os.path.join(src, f), dst)
+    ap = os.path.join(path, ".obsidian", "appearance.json")
+    try:
+        data = json.load(open(ap)) if os.path.isfile(ap) else {}
+    except Exception:
+        data = {}
+    data["cssTheme"] = "Monochrome"
+    data.setdefault("accentColor", "#8c8c8c")
+    json.dump(data, open(ap, "w"), indent=2)
+    print("   themed vault:", path)
+PY
+    echo ":: Obsidian: Monochrome theme installed (restart Obsidian to apply)."
+else
+    echo ":: Obsidian: no vault registry found — skipping (open Obsidian once, then re-run, or copy obsidian/Monochrome into <vault>/.obsidian/themes/ manually)."
+fi
+
 chmod +x "$CONF"/hypr/scripts/*.sh "$CONF"/waybar/scripts/*.sh
 
 # Apply dark + monochrome toolkit settings (best-effort)
