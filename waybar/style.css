@@ -24,11 +24,11 @@ window#waybar {
 #custom-brightness,
 #custom-profile,
 #tray {
-  background: #0d0d0f;
+  background: #060607;
   color: #d4d4d6;
   padding: 0 12px;
   border-radius: 8px;
-  border: 1px solid #161619;
+  border: 1px solid #0e0e11;
 }
 
 /* tools button */
@@ -39,7 +39,7 @@ window#waybar {
   margin-right: 4px;
 }
 #custom-tools:hover {
-  background: #151517;
+  background: #0d0d0f;
 }
 
 /* workspaces */
@@ -57,7 +57,7 @@ window#waybar {
 
 #workspaces button:hover {
   color: #d4d4d6;
-  background: #151517;
+  background: #0d0d0f;
 }
 
 #workspaces button.active {
@@ -116,6 +116,6 @@ window#waybar.empty #window {
 }
 
 #tray menu {
-  background: #0d0d0f;
+  background: #060607;
   color: #d4d4d6;
 }

@@ -1,17 +1,17 @@
 /* HyprMinimal — collapse the GTK client-side-decoration (CSD) titlebar.
  * GTK apps draw their own grey headerbar; this flattens it into the
- * monochrome theme (#0d0d0f) and slims it so it stops being a big grey slab. */
+ * monochrome theme (#060607) and slims it so it stops being a big grey slab. */
 
 headerbar,
 .titlebar,
 window.csd > .titlebar,
 window.background.csd headerbar,
 window.background.csd > .titlebar {
-  background-color: #0d0d0f;
+  background-color: #060607;
   background-image: none;
   box-shadow: none;
   border: none;
-  border-bottom: 1px solid #151517;
+  border-bottom: 1px solid #0d0d0f;
   border-radius: 0;
   min-height: 0;
   padding: 1px 4px;
@@ -33,6 +33,6 @@ headerbar .title,
 window,
 window.background,
 .background {
-  background-color: #0d0d0f;
+  background-color: #060607;
   color: #d4d4d6;
 }

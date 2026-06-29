@@ -74,8 +74,8 @@ hl.config({
         gaps_out = 10,
         border_size = 2,
         col = {
-            active_border   = "rgba(3a3a40ff)",   -- muted grey (minimal)
-            inactive_border = "rgba(1c1c20ff)",   -- dark grey
+            active_border   = "rgba(2a2a2eff)",   -- muted grey (minimal)
+            inactive_border = "rgba(141417ff)",   -- dark grey
         },
         resize_on_border = true,
         allow_tearing    = false,
