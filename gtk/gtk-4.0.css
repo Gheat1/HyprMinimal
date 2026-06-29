@@ -1,16 +1,16 @@
 /* HyprMinimal — collapse the GTK4 / libadwaita client-side-decoration titlebar.
- * Flattens the headerbar into the monochrome theme (#141416) and slims it. */
+ * Flattens the headerbar into the monochrome theme (#0d0d0f) and slims it. */
 
 headerbar,
 .titlebar,
 windowhandle,
 window.csd > .titlebar,
 window.background.csd headerbar {
-  background-color: #141416;
+  background-color: #0d0d0f;
   background-image: none;
   box-shadow: none;
   border: none;
-  border-bottom: 1px solid #1d1d20;
+  border-bottom: 1px solid #151517;
   border-radius: 0;
   min-height: 0;
   padding: 1px 4px;
@@ -29,6 +29,6 @@ headerbar .title {
 window,
 window.background,
 .background {
-  background-color: #141416;
+  background-color: #0d0d0f;
   color: #d4d4d6;
 }

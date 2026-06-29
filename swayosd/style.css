@@ -2,8 +2,8 @@
 
 window {
     border-radius: 16px;
-    border: 1px solid rgba(106, 106, 112, 0.6);   /* matches the window border grey */
-    background-color: rgba(20, 20, 22, 0.92);      /* near-black, slightly translucent */
+    border: 1px solid rgba(58, 58, 64, 0.6);   /* matches the window border grey */
+    background-color: rgba(13, 13, 15, 0.92);      /* near-black, slightly translucent */
     box-shadow: none;
 }
 
