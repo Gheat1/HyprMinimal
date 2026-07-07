@@ -14,3 +14,4 @@ allow_images=true
 image_size=28
 gtk_dark=true
 hide_scroll=true
+normal_window=true

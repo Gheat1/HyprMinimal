@@ -22,7 +22,17 @@ hl.monitor({
     position = "0x0",
     scale    = 1.6,
 })
--- any external monitor: auto place to the right at native res
+-- AOC 27G2G8: above the laptop, 1080p at max refresh (240Hz). Matched by
+-- description so it works on any DP/USB-C port. Laptop is 2560x1600@1.6 =
+-- 1600x1000 logical at 0x0; this monitor is 1920x1080@1.0, so y=-1080 sits it
+-- directly above with left edges aligned.
+hl.monitor({
+    output   = "desc:AOC 27G2G8 1EKQ1JA009425",
+    mode     = "1920x1080@239.96",
+    position = "0x-1080",
+    scale    = 1,
+})
+-- any other external monitor: auto place to the right at native res
 hl.monitor({
     output   = "",
     mode     = "preferred",
@@ -39,15 +49,23 @@ hl.on("hyprland.start", function()
     -- can start. Without this, Google Meet/OBS screencapture hangs. See
     -- ~/.config/systemd/user/hyprland-session.target and ~/.config/xdg-desktop-portal/portals.conf
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_SESSION_DESKTOP")
-    hl.exec_cmd("systemctl --user start hyprland-session.target")
+    -- REMOVED: starting hyprland-session.target pulled in graphical-session.target,
+    -- which on this machine drags in KDE's kwin_wayland/plasmashell -> black screen.
     hl.exec_cmd("hyprpaper")
+    -- rotate minimalist wallpapers every 5 min; Super+W skips ahead (SIGUSR1)
+    hl.exec_cmd("$HOME/.config/hypr/scripts/wallpaper-cycle.sh")
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
     hl.exec_cmd("swayosd-server --style $HOME/.config/swayosd/style.css")  -- volume/brightness OSD
     hl.exec_cmd("hypridle")
-    hl.exec_cmd("nm-applet --indicator")
+    -- DISABLED: duplicate wifi tray icon. Waybar's grouped `network` module covers
+    -- status + click-opens nm-connection-editor. NetworkManager daemon is unaffected.
+    -- hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("wl-paste --watch cliphist store")   -- clipboard history daemon
     hl.exec_cmd("/opt/ghelper/ghelper")              -- G-Helper (ASUS control) -> tray
+    -- Claude'O'Clock: floating agent monitor. Guard against a second instance
+    -- (it binds the hook server on 127.0.0.1:22362, which only one process can hold).
+    hl.exec_cmd("sh -c 'pgrep -x claudeoclock >/dev/null || claudeoclock'")
     -- waybar auto-hide: edge-triggered cursor watcher (reveal at top edge, hide below).
     -- Starts after waybar so its SIGUSR1 handler is installed first.
     hl.exec_cmd("$HOME/.config/waybar/scripts/autohide.sh")
@@ -58,6 +76,7 @@ end)
 ---------------------------------------------------------------
 --  ENVIRONMENT
 ---------------------------------------------------------------
+hl.env("XCURSOR_THEME", "MacOS-Tahoe-Cursor")   -- macOS Tahoe cursors (XCursor theme in ~/.icons)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("GTK_THEME", "Adwaita:dark")
@@ -74,7 +93,7 @@ hl.config({
         gaps_out = 10,
         border_size = 2,
         col = {
-            active_border   = "rgba(2a2a2eff)",   -- muted grey (minimal)
+            active_border   = "rgba(34322dff)",   -- muted stone grey (minimal)
             inactive_border = "rgba(141417ff)",   -- dark grey
         },
         resize_on_border = true,
@@ -85,8 +104,13 @@ hl.config({
     decoration = {
         rounding       = 8,
         rounding_power = 2,
-        active_opacity   = 1.0,
-        inactive_opacity = 0.96,
+        -- rounded screen corners (black bezel fade at the panel's far corners);
+        -- relative path resolves against this config's directory
+        screen_shader  = "shaders/rounded-corners.glsl",
+        -- frosted: windows slightly translucent so the blur shows through
+        -- (fullscreen_opacity stays 1.0 by default, so video is unaffected)
+        active_opacity   = 0.94,
+        inactive_opacity = 0.88,
 
         shadow = {
             enabled      = true,
@@ -97,7 +121,7 @@ hl.config({
 
         blur = {
             enabled      = true,
-            size         = 6,
+            size         = 8,
             passes       = 3,
             new_optimizations = true,
             vibrancy     = 0.10,
@@ -116,6 +140,8 @@ hl.config({
     misc = {
         force_default_wallpaper = 0,      -- no anime mascot
         disable_hyprland_logo   = true,
+        disable_splash_rendering = true,  -- no version/splash text at bottom
+        background_color        = "rgb(000000)",  -- pure black backdrop
         focus_on_activate       = true,
     },
 })
@@ -182,6 +208,9 @@ hl.bind(mod .. " + G", hl.dsp.exec_cmd("/opt/ghelper/ghelper"))
 -- restart bar + auto-hide watcher (saves copy-pasting the restart command)
 hl.bind(mod .. " + SHIFT + B", hl.dsp.exec_cmd("$HOME/.config/waybar/scripts/restart-bar.sh"))
 
+-- next wallpaper (signals the 5-min cycler to advance immediately)
+hl.bind(mod .. " + W", hl.dsp.exec_cmd("pkill -USR1 -f wallpaper-cycle.sh"))
+
 -- tools menu + keybinds help
 hl.bind(mod .. " + T",     hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/tools-menu.sh"))
 hl.bind(mod .. " + slash", hl.dsp.exec_cmd("kitty --class keybinds-help -e \"$HOME/.config/hypr/scripts/keybinds.sh\""))
@@ -194,7 +223,6 @@ hl.bind(mod .. " + SHIFT + O", hl.dsp.exec_cmd("kitty --class oled-refresh --sta
 -- window management
 hl.bind(mod .. " + V",             hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mod .. " + F",             hl.dsp.window.fullscreen())
-hl.bind(mod .. " + P",             hl.dsp.window.pseudo())
 hl.bind(mod .. " + J",             hl.dsp.layout("togglesplit"))
 hl.bind(mod .. " + C",             hl.dsp.window.center())
 
@@ -226,6 +254,12 @@ hl.bind(mod .. " + minus",     hl.dsp.window.move({ workspace = "special:magic" 
 hl.bind(mod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
+-- MX Master 4 gesture button (logiops, /etc/logid.cfg): hold thumb button +
+-- move mouse left/right -> logid injects Super+Ctrl+Left/Right -> switch
+-- workspace. Tap without moving sends Super+grave (hyprexpo overview above).
+hl.bind(mod .. " + CTRL + right", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(mod .. " + CTRL + left",  hl.dsp.focus({ workspace = "e-1" }))
+
 -- mouse drag / resize
 hl.bind(mod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
@@ -254,6 +288,47 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
 
+-- media (Super combos): . = next, , = previous, P = play/pause
+-- (Super+P replaced the old window 'pseudo' bind)
+hl.bind(mod .. " + period", hl.dsp.exec_cmd("playerctl next"),       { locked = true })
+hl.bind(mod .. " + comma",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+hl.bind(mod .. " + P",      hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
+
+---------------------------------------------------------------
+--  LAYER RULES  (frosted shell surfaces)
+---------------------------------------------------------------
+-- ignore_alpha skips (near-)fully-transparent pixels, so only the visible
+-- pills/panels get frosted — not the empty space around them.
+hl.layer_rule({
+    name  = "blur-waybar",
+    match = { namespace = "^(waybar)$" },
+    blur  = true,
+    ignore_alpha = 0.1,
+})
+-- NOTE: no layer rule for wofi — its GTK3 layer surface renders opaque
+-- (per-pixel alpha never reaches the compositor on this GTK), so blur had
+-- nothing to show. Instead wofi runs with normal_window=true (wofi config)
+-- and gets frosted through the wofi-frost *window* rule below, where
+-- Hyprland's opacity multiply works regardless of the buffer's alpha.
+hl.layer_rule({
+    name  = "blur-mako",
+    match = { namespace = "^(notifications)$" },
+    blur  = true,
+    ignore_alpha = 0.1,
+})
+hl.layer_rule({
+    name  = "blur-swayosd",
+    match = { namespace = "^(swayosd)$" },
+    blur  = true,
+    ignore_alpha = 0.1,
+})
+hl.layer_rule({
+    name  = "blur-wlogout",
+    match = { namespace = "^(wlogout)$" },
+    blur  = true,
+    ignore_alpha = 0.1,
+})
+
 ---------------------------------------------------------------
 --  WINDOW RULES
 ---------------------------------------------------------------
@@ -274,6 +349,16 @@ hl.window_rule({
     name  = "float-dialogs",
     match = { class = "^(pavucontrol|nm-connection-editor|blueman-manager)$" },
     float = true,
+})
+
+-- wofi as a frosted floating window (see layer-rule note above)
+hl.window_rule({
+    name  = "wofi-frost",
+    match = { class = "^(wofi)$" },
+    float = true,
+    center = true,
+    opacity = 0.85,
+    stay_focused = true,
 })
 
 -- G-Helper: floating, docked top-right and flush to the top so its
@@ -310,4 +395,18 @@ hl.window_rule({
     float = true,
     size  = "900 560",
     center = true,
+})
+
+-- Claude'O'Clock: floating always-on-top widget, docked top-right across all
+-- workspaces. The app owns its own size (420 wide; 600 tall, or ~44 when
+-- collapsed to its titlebar), so no size rule here — just float, pin and dock
+-- it 20px from the right edge and 40px from the top (monitor_w is the monitor's
+-- logical width, 1600 on the G16 at 1.6 scale).
+hl.window_rule({
+    name  = "claudeoclock",
+    match = { class = "^(claudeoclock)$" },
+    float = true,
+    pin   = true,
+    size  = "420 600",
+    move  = "monitor_w-440 40",
 })

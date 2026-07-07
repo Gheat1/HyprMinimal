@@ -8,4 +8,4 @@ sleep 0.5
 hyprctl dispatch "hl.dsp.dpms('on')"
 hyprctl eval 'hl.monitor({output="eDP-1", mode="2560x1600@240", position="0x0", scale=1.6})'
 hyprctl reload
-brightnessctl set 60% >/dev/null 2>&1
+brightnessctl -d intel_backlight set 60% >/dev/null 2>&1

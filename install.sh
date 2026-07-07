@@ -8,12 +8,24 @@ CONF="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 echo ":: Installing HyprMinimal into $CONF"
 
-mkdir -p "$CONF"/{hypr/scripts,waybar/scripts,wofi,mako,wlogout,Code/User,gtk-3.0,gtk-4.0,xdg-desktop-portal,systemd/user,swayosd,kitty} \
-         "$HOME/.local/share/color-schemes"
+mkdir -p "$CONF"/{hypr/scripts,hypr/shaders,waybar/scripts,wofi,mako,wlogout,Code/User,gtk-3.0,gtk-4.0,xdg-desktop-portal,systemd/user,swayosd,kitty} \
+         "$HOME/.local/share/color-schemes" "$HOME/.local/share/wallpapers/minimal"
 
 # Hyprland
-cp "$DIR"/hypr/*.conf "$DIR"/hypr/hyprland.lua "$DIR"/hypr/wallpaper.png "$CONF/hypr/"
+cp "$DIR"/hypr/*.conf "$DIR"/hypr/hyprland.lua "$CONF/hypr/"
 cp "$DIR"/hypr/scripts/*.sh "$CONF/hypr/scripts/"
+cp "$DIR"/hypr/shaders/*.glsl "$CONF/hypr/shaders/"
+
+# Wallpapers — generated locally (deterministic output, ~28 MB not kept in git).
+# hyprland.lua autostarts scripts/wallpaper-cycle.sh: 5-min rotation, Super+W skips.
+if python3 -c 'import PIL, numpy' 2>/dev/null; then
+    echo ":: Generating minimalist wallpapers into ~/.local/share/wallpapers/minimal"
+    python3 "$DIR"/wallpapers/gen-wallpapers.py >/dev/null
+    cp "$DIR"/wallpapers/gen-wallpapers.py "$HOME/.local/share/wallpapers/minimal/"
+else
+    echo ":: SKIPPED wallpaper generation — install python-pillow and python-numpy, then run:"
+    echo ":: python3 wallpapers/gen-wallpapers.py"
+fi
 
 # Waybar
 cp "$DIR"/waybar/config.jsonc "$DIR"/waybar/style.css "$CONF/waybar/"

@@ -14,32 +14,53 @@ window#waybar {
 }
 
 /* shared pill look */
+/* translucent pills; Hyprland's blur-waybar layer rule frosts what's behind
+   (ignore_alpha skips the fully transparent gaps between pills) */
 #workspaces,
 #window,
 #clock,
-#custom-tools,
-#pulseaudio,
-#network,
-#battery,
-#custom-brightness,
-#custom-profile,
+#controls,
+#hardware,
 #tray {
-  background: #060607;
-  color: #d4d4d6;
+  background: rgba(6, 6, 7, 0.42);
+  color: #bfbab1;
   padding: 0 12px;
   border-radius: 8px;
-  border: 1px solid #0e0e11;
+  border: 1px solid rgba(214, 209, 200, 0.08);
 }
 
-/* tools button */
-#custom-tools {
-  color: #e8e8e8;
-  font-size: 15px;
-  padding: 0 13px;
+/* controls dropdown: menu button reveals tools + claudeoclock + eco + profile,
+   all sharing one pill (like #hardware) */
+#controls {
   margin-right: 4px;
+  padding: 0 6px;
 }
-#custom-tools:hover {
-  background: #0d0d0f;
+
+/* children live inside the panel: no pill of their own, just icon padding */
+#controls #custom-menu,
+#controls #custom-tools,
+#controls #custom-claudeoclock,
+#controls #custom-lowpower,
+#controls #custom-profile {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0 8px;
+  color: #bfbab1;
+  font-size: 14px;
+}
+
+/* the always-visible toggle button + the larger glyph icons */
+#controls #custom-menu,
+#controls #custom-tools {
+  color: #c9c4b9;
+  font-size: 15px;
+}
+#controls #custom-menu:hover,
+#controls #custom-tools:hover,
+#controls #custom-claudeoclock:hover {
+  color: #d6d1c8;
 }
 
 /* workspaces */
@@ -48,7 +69,7 @@ window#waybar {
 }
 
 #workspaces button {
-  color: #5a5a60;
+  color: #57534e;
   padding: 0 8px;
   margin: 3px 1px;
   border-radius: 6px;
@@ -56,23 +77,23 @@ window#waybar {
 }
 
 #workspaces button:hover {
-  color: #d4d4d6;
-  background: #0d0d0f;
+  color: #bfbab1;
+  background: rgba(214, 209, 200, 0.10);
 }
 
 #workspaces button.active {
   color: #0a0a0b;
-  background: #e8e8e8;
+  background: #c9c4b9;
 }
 
 #workspaces button.urgent {
   color: #0a0a0b;
-  background: #b0b0b0;
+  background: #a29d93;
 }
 
 /* window title */
 #window {
-  color: #8a8a90;
+  color: #86817a;
   font-weight: 400;
 }
 
@@ -83,33 +104,58 @@ window#waybar.empty #window {
 
 /* clock */
 #clock {
-  color: #e8e8e8;
+  color: #c9c4b9;
   font-weight: 600;
 }
 
-/* right side */
-#pulseaudio { margin-left: 4px; }
-#network    { margin-left: 4px; }
-#battery    { margin-left: 4px; }
+/* right-side hardware panel: brightness + sound + network + power share one pill */
+#hardware {
+  margin-left: 4px;
+  padding: 0 6px;
+}
 
-#battery.charging { color: #e8e8e8; }
-#battery.warning:not(.charging)  { color: #c0c0c0; }
-#battery.critical:not(.charging) {
+/* children live inside the panel: no pill of their own, just icon padding */
+#hardware #custom-brightness,
+#hardware #pulseaudio,
+#hardware #network,
+#hardware #custom-power {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0 8px;
+  color: #bfbab1;
+  font-size: 14px;
+}
+
+#hardware #pulseaudio:hover,
+#hardware #network:hover,
+#hardware #custom-brightness:hover,
+#hardware #custom-power:hover {
+  color: #d6d1c8;
+}
+
+/* low-battery states still tint the power icon (2-id specificity to win) */
+#hardware #custom-power.warning  { color: #aaa59b; }
+#hardware #custom-power.critical {
   color: #0a0a0b;
   background: #d04040;
+  border-radius: 6px;
 }
 
-#custom-brightness {
-  margin-left: 4px;
-  color: #d4d4d6;
+/* low-power (eco) toggle: inverted chip when active, dim leaf when off */
+#controls #custom-lowpower.off { color: #57534e; }
+#controls #custom-lowpower.on {
+  color: #0a0a0b;
+  background: #c9c4b9;
+  border-radius: 6px;
 }
+#controls #custom-lowpower:hover.off { color: #bfbab1; }
 
-#custom-profile {
-  margin-left: 4px;
-}
-#custom-profile.performance { color: #e8e8e8; }
-#custom-profile.balanced    { color: #b4b4b8; }
-#custom-profile.quiet       { color: #8a8a90; }
+/* performance profile: brightness tracks the active profile */
+#controls #custom-profile.performance { color: #c9c4b9; }
+#controls #custom-profile.balanced    { color: #9d988e; }
+#controls #custom-profile.quiet       { color: #86817a; }
 
 #tray {
   margin-left: 4px;
@@ -117,5 +163,5 @@ window#waybar.empty #window {
 
 #tray menu {
   background: #060607;
-  color: #d4d4d6;
+  color: #bfbab1;
 }

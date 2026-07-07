@@ -42,6 +42,9 @@ HyprMinimal is a fully themed, opinionated Hyprland dotfile set built around a s
 ### What makes it distinctive
 
 - **Lua config** — uses Hyprland's `hyprland.lua` API (Hyprland 0.55+) instead of the legacy `hyprland.conf` format. Variables, loops, and functions keep the config DRY and readable.
+- **Frosted glass everywhere** — translucent, blurred surfaces across windows, Waybar pills, wofi, mako, swayosd, and wlogout. Highlights use a warm *stone grey* instead of pure white.
+- **Generated minimalist wallpapers** — seven dark, stone-tinted wallpapers produced by a deterministic Python script (`wallpapers/gen-wallpapers.py`), rotated every 5 minutes; `Super + W` skips to the next with a toast.
+- **Rounded screen corners** — a tiny GLSL screen shader (`hypr/shaders/rounded-corners.glsl`) fades the panel's far corners to black for a soft bezel look, over everything including fullscreen.
 - **OLED-first** — built for the G16's 2560×1600 240 Hz OLED panel. Dedicated burn-in mitigations are baked in at every layer (see [OLED Care](#oled-care)).
 - **Full-stack theming** — the monochrome palette flows through Waybar, wofi, mako, wlogout, GTK (Adwaita-dark), a custom KDE/Qt colour scheme (`Monochrome.colors`) for Dolphin and Qt apps, the YAMIS icon theme, a hand-tuned VS Code `settings.json` with monochrome syntax highlighting, and a self-contained Obsidian `Monochrome` theme.
 - **ASUS ROG integration** — works alongside G-Helper (Linux), `asusctl`, and `supergfxctl` for fan/power profiles and GPU switching. A Waybar module shows the current performance profile and lets you cycle it with a click.
@@ -225,7 +228,6 @@ Start a Hyprland session from your display manager. Everything should come up th
 |---------|--------|
 | `Super + V` | Toggle floating |
 | `Super + F` | Toggle fullscreen |
-| `Super + P` | Toggle pseudo-tile |
 | `Super + J` | Toggle split direction |
 | `Super + C` | Center window |
 | `Super + Arrows` | Move focus (left / right / up / down) |
@@ -241,7 +243,7 @@ Start a Hyprland session from your display manager. Everything should come up th
 | `Super + Shift + 1..0` | Move window to workspace 1–10 |
 | `` Super + ` `` | Workspace overview (hyprexpo) |
 | `Super + S` | Toggle scratchpad |
-| `Super + Shift + S` | Move window to scratchpad |
+| `Super + minus` | Move window to scratchpad |
 | `Super + Scroll` | Cycle workspaces |
 
 Three-finger horizontal swipe also switches workspaces via the touchpad gesture binding.
@@ -253,25 +255,32 @@ Three-finger horizontal swipe also switches workspaces via the touchpad gesture 
 | `Print` | Screenshot region → clipboard |
 | `Shift + Print` | Screenshot full screen → clipboard |
 | `Super + Print` | Screenshot region → `~/Pictures/` |
+| `Super + Shift + S` | Screenshot region → `~/Pictures/` + clipboard (laptop's snip key) |
 | `Super + Shift + V` | Clipboard history picker (cliphist + wofi) |
 | `Super + Shift + C` | Colour picker → clipboard (hyprpicker) |
 | `Super + Shift + R` | Screen record region (toggle wf-recorder) |
+
+### Wallpaper
+
+| Keybind | Action |
+|---------|--------|
+| `Super + W` | Next wallpaper (auto-cycles every 5 minutes; shows a toast) |
 
 ### OLED Care
 
 | Keybind | Action |
 |---------|--------|
-| `Super + O` | Blank screen (DPMS off, wakes on input) |
 | `Super + Shift + O` | Pixel-refresh wash (30 s colour cycle) |
 
-### Hardware Keys
+### Media & Hardware Keys
 
 | Key | Action |
 |-----|--------|
-| Volume Up / Down / Mute | wpctl — PipeWire sink |
-| Mic Mute | wpctl — PipeWire source |
-| Brightness Up / Down | brightnessctl |
+| Volume Up / Down / Mute | swayosd — PipeWire sink |
+| Mic Mute | swayosd — PipeWire source |
+| Brightness Up / Down | brightness.sh + swayosd OSD |
 | Play / Pause / Next / Prev | playerctl |
+| `Super + P` / `Super + ,` / `Super + .` | Play-pause / previous / next |
 
 ---
 
@@ -338,18 +347,18 @@ The screen is locked **before** sleep and displays are re-enabled after resume.
 
 ### Colour palette
 
-All surfaces use this six-value greyscale:
+All surfaces use a near-black base with warm **stone grey** highlights (greys pulled slightly toward beige — a little less white, a little more paper):
 
 | Token | Hex | Used for |
 |-------|-----|---------|
 | Background | `#0a0a0b` | Base surface, editor, terminal |
-| Surface | `#141416` | Waybar pills, mako notifications, input fields |
-| Overlay | `#1d1d20` | Hover states, selections |
-| Border | `#2a2a2e` | Inactive window borders, module outlines |
-| Muted text | `#8a8a90` | Inactive labels, window title |
-| Accent / white | `#e8e8e8` | Active window border, active workspace dot, clock, focused text |
+| Surface | `rgba(6,6,7,~0.5)` | Frosted Waybar pills, mako notifications, input fields |
+| Border | `#34322d` | Active window border; warm dark stone |
+| Muted text | `#86817a` | Inactive labels, window title |
+| Text | `#bfbab1` | Primary text everywhere |
+| Accent / stone | `#c9c4b9` | Active workspace chip, clock, selections, hovers (`#d6d1c8`) |
 
-To add a colour accent (e.g. a blue tint for active borders), change `rgba(e8e8e8ff)` in `hypr/hyprland.lua` and `#e8e8e8` references in `waybar/style.css`, `wofi/style.css`, and `wlogout/style.css`.
+To change the accent, replace the `#c9c4b9` / `#bfbab1` / `#d6d1c8` references in `waybar/style.css`, `wofi/style.css`, `wlogout/style.css`, `kitty/monochrome.conf`, and `kde/Monochrome.colors`, plus `active_border` in `hypr/hyprland.lua`.
 
 ### Monitor and scale
 
@@ -382,9 +391,20 @@ Replace the font name in all three files to switch. Any Nerd Font will keep the 
 
 `waybar/scripts/profile.sh` tries `asusctl profile -p` first, then falls back to `/sys/firmware/acpi/platform_profile`. On non-ASUS hardware the module will still work if your kernel exposes the platform profile sysfs node.
 
-### Wallpaper
+### Wallpapers
 
-Replace `hypr/wallpaper.png` (or edit `hypr/hyprpaper.conf` to point at another file) and restart `hyprpaper`.
+Seven dark minimalist wallpapers are generated into `~/.local/share/wallpapers/minimal/` by `wallpapers/gen-wallpapers.py` (deterministic — same output every run; needs `python-pillow` + `python-numpy`). `hypr/scripts/wallpaper-cycle.sh` rotates through them every 5 minutes and `Super + W` skips ahead immediately.
+
+To tweak the designs, edit the generator (each wallpaper is a few lines of numpy) and re-run it. To use your own images, drop PNGs into the same folder — the cycler picks up everything matching `*.png`.
+
+Two hyprpaper 0.8 gotchas baked into the setup, should you rework it:
+
+- The IPC request needs an **explicit monitor name** — hyprpaper matches explicit states first, then the *first* wildcard, which is always the config's `monitor = *` entry, so monitor-less requests are silently ignored.
+- Use `monitor = *` rather than an empty `monitor =` in `hyprpaper.conf` — hyprlang drops special-category entries keyed by an empty string.
+
+### Rounded screen corners
+
+`hypr/shaders/rounded-corners.glsl` is applied as `decoration:screen_shader` — it fades the framebuffer to black outside a rounded rect on every monitor. Adjust `radius = 24.0` (physical pixels) and `hyprctl reload`. Note that screenshots are unaffected by design: Hyprland hands screen-capture tools the pre-shader frame.
 
 ---
 
@@ -396,18 +416,27 @@ HyprMinimal/
 │   ├── hyprland.lua          # Main Hyprland config (Lua API, Hyprland 0.55+)
 │   ├── hyprlock.conf         # Lock screen: blurred greyscale screenshot + clock
 │   ├── hypridle.conf         # Idle → dim → lock → DPMS off → suspend pipeline
-│   ├── hyprpaper.conf        # Wallpaper daemon config
-│   ├── wallpaper.png         # Bundled monochrome wallpaper
+│   ├── hyprpaper.conf        # Wallpaper daemon config (static base; script cycles via IPC)
+│   ├── shaders/
+│   │   └── rounded-corners.glsl  # Screen shader: soft black bezel corners
 │   └── scripts/
 │       ├── tools-menu.sh     # Wrench/Super+T launcher — wofi dmenu of actions
 │       ├── yt-download.sh    # yt-dlp wrapper: clipboard prefill, in-terminal progress
 │       ├── oled-refresh.sh   # Full-screen R/G/B/white/black wash for OLED care
+│       ├── wallpaper-cycle.sh # 5-min wallpaper rotation; SIGUSR1 (Super+W) skips
+│       ├── brightness.sh     # OLED-aware backlight steps + swayosd OSD
+│       ├── on-resume.sh      # Post-suspend fixups
 │       └── keybinds.sh       # Cheatsheet printed in a floating terminal
+├── wallpapers/
+│   └── gen-wallpapers.py     # Deterministic generator: 7 dark stone-tinted minimal walls
 ├── waybar/
 │   ├── config.jsonc          # Bar layout: tools | workspaces | title — clock — profile | brightness | audio | wifi | battery | tray
-│   ├── style.css             # Monochrome pill theme for all Waybar modules
+│   ├── style.css             # Frosted stone pill theme for all Waybar modules
 │   └── scripts/
 │       ├── autohide.sh       # Cursor-watcher: SIGUSR1 hide/show, dock-mode, no overlap
+│       ├── power.sh          # Laptop + peripheral battery readout (upower/solaar/bluetoothctl)
+│       ├── lowpower.sh       # Eco toggle: quiet profile, EPP, 60 Hz, blur/anim off
+│       ├── wifi-menu.sh      # Wi-Fi picker
 │       └── profile.sh        # ASUS performance profile: status JSON + cycle-next
 ├── wofi/
 │   ├── config                # Launcher settings (520×420, centered, dark)

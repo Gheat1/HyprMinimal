@@ -5,9 +5,10 @@
   font-size: 14px;
 }
 
+/* translucent + Hyprland blur-wofi layer rule = frosted launcher */
 window {
-  background-color: #000000;
-  border: 1px solid #141417;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(214, 209, 200, 0.09);
   border-radius: 12px;
 }
 
@@ -18,15 +19,15 @@ window {
 #input {
   margin-bottom: 12px;
   padding: 10px 14px;
-  border: 1px solid #141417;
+  border: 1px solid rgba(214, 209, 200, 0.09);
   border-radius: 8px;
-  background-color: #060607;
-  color: #e8e8e8;
-  caret-color: #e8e8e8;
+  background-color: rgba(6, 6, 7, 0.5);
+  color: #c9c4b9;
+  caret-color: #c9c4b9;
 }
 
 #input:focus {
-  border: 1px solid #e8e8e8;
+  border: 1px solid #c9c4b9;
 }
 
 #scroll {
@@ -40,7 +41,7 @@ window {
 #entry {
   padding: 9px 12px;
   border-radius: 8px;
-  color: #b4b4b8;
+  color: #9d988e;
 }
 
 #entry image {
@@ -48,7 +49,7 @@ window {
 }
 
 #entry:selected {
-  background-color: #e8e8e8;
+  background-color: #c9c4b9;
   color: #0a0a0b;
 }
 
@@ -57,5 +58,5 @@ window {
 }
 
 #text {
-  color: #b4b4b8;
+  color: #9d988e;
 }

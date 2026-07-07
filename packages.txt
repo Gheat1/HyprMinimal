@@ -23,6 +23,8 @@ pipewire wireplumber              # audio/video streams (screensharing)
 xdg-desktop-portal-hyprland       # screencast portal (Google Meet, OBS)
 ttf-jetbrains-mono-nerd   # UI font
 qt6ct kvantum         # optional Qt theming (kde platform theme used by default)
+libnotify             # notify-send (wallpaper-skip toast)
+python-pillow python-numpy   # wallpaper generation (install.sh / wallpapers/gen-wallpapers.py)
 
 ## ASUS ROG (g14 repo or AUR) — for the Zephyrus G16
 asusctl supergfxctl
@@ -38,6 +40,7 @@ sudo pacman -S --needed hyprland kitty waybar wofi mako hyprpaper hyprlock hypri
   grim slurp wl-clipboard cliphist hyprpicker wf-recorder brightnessctl playerctl \
   pavucontrol network-manager-applet yt-dlp ffmpeg ttf-jetbrains-mono-nerd \
   pipewire wireplumber xdg-desktop-portal-hyprland swayosd \
+  libnotify python-pillow python-numpy \
   asusctl supergfxctl
 
 ## AUR

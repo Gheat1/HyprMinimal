@@ -7,9 +7,30 @@
   "margin-right": 10,
   "spacing": 4,
 
-  "modules-left": ["custom/tools", "hyprland/workspaces", "hyprland/window"],
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["clock"],
-  "modules-right": ["tray", "custom/profile", "custom/brightness", "pulseaudio", "network", "battery"],
+  "modules-right": ["group/controls", "tray", "group/hardware"],
+
+  "group/hardware": {
+    "orientation": "horizontal",
+    "modules": ["custom/brightness", "pulseaudio", "network", "custom/power"]
+  },
+
+  "group/controls": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": true,
+      "click-to-reveal": true,
+      "children-class": "control-item"
+    },
+    "modules": ["custom/menu", "custom/tools", "custom/claudeoclock", "custom/lowpower", "custom/profile"]
+  },
+
+  "custom/menu": {
+    "format": "󰍜",
+    "tooltip-format": "Controls — click to expand"
+  },
 
   "custom/brightness": {
     "exec": "~/.config/hypr/scripts/brightness.sh status",
@@ -28,12 +49,35 @@
   },
 
 
+  "custom/claudeoclock": {
+    "format": "󰚩",
+    "tooltip-format": "Claude'O'Clock — click to show/hide",
+    "on-click": "~/.config/claudeoclock/toggle.sh"
+  },
+
+  "custom/lowpower": {
+    "exec": "~/.config/waybar/scripts/lowpower.sh status",
+    "return-type": "json",
+    "interval": 30,
+    "signal": 9,
+    "format": "{}",
+    "on-click": "~/.config/waybar/scripts/lowpower.sh toggle"
+  },
+
   "custom/profile": {
     "exec": "~/.config/waybar/scripts/profile.sh status",
     "return-type": "json",
     "interval": 5,
     "format": "{}",
     "on-click": "~/.config/waybar/scripts/profile.sh next"
+  },
+
+  "custom/power": {
+    "exec": "~/.config/waybar/scripts/power.sh",
+    "return-type": "json",
+    "interval": 60,
+    "format": "{}",
+    "on-click": "blueman-manager || overskride || solaar"
   },
 
   "hyprland/workspaces": {
@@ -50,7 +94,7 @@
   },
 
   "clock": {
-    "format": "{:%H:%M}",
+    "format": "{:%I:%M %p}",
     "format-alt": "{:%a %d %b}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
@@ -62,19 +106,24 @@
   },
 
   "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-muted": "󰝟  muted",
+    "format": "{icon}",
+    "format-muted": "󰝟",
     "format-icons": { "default": ["󰕿", "󰖀", "󰕾"] },
+    "tooltip-format": "{volume}%  ·  {desc}",
     "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "on-click-right": "pavucontrol"
   },
 
   "network": {
-    "format-wifi": "",
+    "format-wifi": "{icon}",
+    "format-icons": ["󰤟", "󰤢", "󰤥", "󰤨"],
     "format-ethernet": "󰈀",
     "format-disconnected": "󰖪",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-    "on-click": "nm-connection-editor"
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)  ·  click to pick a network",
+    "tooltip-format-ethernet": "{ifname}  ·  wired",
+    "tooltip-format-disconnected": "Offline  ·  click to connect",
+    "on-click": "~/.config/waybar/scripts/wifi-menu.sh",
+    "on-click-right": "nm-connection-editor"
   },
 
   "battery": {

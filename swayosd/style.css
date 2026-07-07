@@ -2,8 +2,8 @@
 
 window {
     border-radius: 16px;
-    border: 1px solid rgba(42, 42, 46, 0.6);   /* matches the window border grey */
-    background-color: rgba(6, 6, 7, 0.92);      /* near-black, slightly translucent */
+    border: 1px solid rgba(52, 50, 45, 0.6);   /* matches the window border grey */
+    background-color: rgba(6, 6, 7, 0.55);     /* frosted: Hyprland blur-swayosd layer rule */
     box-shadow: none;
 }
 
@@ -13,7 +13,7 @@ window {
 
 image,
 label {
-    color: #e0e0e0;
+    color: #c4bfb4;
 }
 
 progressbar {
@@ -26,13 +26,13 @@ progressbar {
 trough {
     min-height: 6px;
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.14);   /* unfilled track */
+    background-color: rgba(214, 209, 200, 0.15);   /* unfilled track */
     border: none;
 }
 
 progress {
     min-height: 6px;
     border-radius: 999px;
-    background-color: #e0e0e0;                      /* filled = soft white */
+    background-color: #c4bfb4;                      /* filled = soft white */
     border: none;
 }

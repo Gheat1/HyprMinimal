@@ -1,7 +1,8 @@
 font=JetBrainsMono Nerd Font 10
-background-color=#060607
-text-color=#d4d4d6
-border-color=#141417
+# translucent + Hyprland blur-mako layer rule = frosted notifications
+background-color=#060607A6
+text-color=#bfbab1
+border-color=#2a2a2e
 progress-color=over #141417
 border-size=1
 border-radius=10

@@ -18,10 +18,10 @@ case "${1:-status}" in
     down) pct=$((pct - STEP)) ;;
 esac
 (( pct > 100 )) && pct=100
-(( pct < MIN )) && pct=MIN
+(( pct < MIN )) && pct=$MIN
 
 if [ "${1:-status}" != "status" ]; then
-    brightnessctl -q set "${pct}%"
+    brightnessctl -d intel_backlight -q set "${pct}%"
     pkill -RTMIN+$SIGNAL -x waybar 2>/dev/null
     # show the on-screen slider (display only — the value is already set above,
     # so swayosd just draws the OSD and never touches the backlight or the floor)
@@ -32,4 +32,4 @@ if [ "${1:-status}" != "status" ]; then
 fi
 
 icon="󰃞"; (( pct >= 34 )) && icon="󰃟"; (( pct >= 67 )) && icon="󰃠"
-printf '{"text":"%s %d%%","tooltip":"Brightness %d%%","percentage":%d}\n' "$icon" "$pct" "$pct" "$pct"
+printf '{"text":"%s","tooltip":"Brightness %d%%","percentage":%d}\n' "$icon" "$pct" "$pct"

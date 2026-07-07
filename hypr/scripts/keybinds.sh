@@ -20,7 +20,6 @@ cat <<'EOF'
    WINDOW MANAGEMENT
    Super + V              Toggle floating
    Super + F              Fullscreen
-   Super + P              Pseudo-tile
    Super + J              Toggle split direction
    Super + C              Center window
    Super + Arrows         Move focus
@@ -35,6 +34,8 @@ cat <<'EOF'
    Super + S              Scratchpad (toggle)
    Super + minus          Move window to scratchpad
    Super + scroll         Cycle workspaces
+   Super + Ctrl + L/R     Cycle workspaces  (= MX Master thumb hold + move)
+   MX thumb tap           Workspace overview (expo)
 
    CAPTURE & CLIPBOARD
    Screenshot key         Region -> ~/Pictures + clipboard  (= Super+Shift+S)
@@ -45,12 +46,16 @@ cat <<'EOF'
    Super + Shift + C      Colour picker
    Super + Shift + R      Screen record region (toggle)
 
+   WALLPAPER
+   Super + W              Next wallpaper (auto-cycles every 5 min)
+
    OLED CARE
    Super + Shift + O      Pixel-refresh wash
 
-   HARDWARE KEYS
+   MEDIA & HARDWARE KEYS
    Volume / Brightness    Multimedia keys
    Play / Pause / Next / Prev   Media keys
+   Super + P / , / .      Play-pause / previous / next
 
    Press any key to close
 EOF

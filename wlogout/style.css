@@ -7,14 +7,15 @@
   transition: 120ms ease;
 }
 
+/* frosted: Hyprland blur-wlogout layer rule */
 window {
-  background-color: rgba(10, 10, 11, 0.85);
+  background-color: rgba(10, 10, 11, 0.45);
 }
 
 button {
-  color: #8a8a90;
-  background-color: #060607;
-  border: 1px solid #141417;
+  color: #86817a;
+  background-color: rgba(6, 6, 7, 0.55);
+  border: 1px solid rgba(214, 209, 200, 0.08);
   border-radius: 14px;
   margin: 10px;
   background-repeat: no-repeat;
@@ -25,7 +26,7 @@ button {
 button:focus,
 button:hover {
   color: #0a0a0b;
-  background-color: #e8e8e8;
-  border: 1px solid #e8e8e8;
+  background-color: #c9c4b9;
+  border: 1px solid #c9c4b9;
   outline: none;
 }
