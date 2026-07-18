@@ -143,7 +143,7 @@ Requires `base-devel cmake cpio` from the official repos. See the [Installation]
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/yourname/HyprMinimal.git
+git clone https://github.com/Gheat1/HyprMinimal.git
 cd HyprMinimal
 ```
 
