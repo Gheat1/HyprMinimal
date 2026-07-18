@@ -4,7 +4,7 @@
 
 **A clean, monochrome Hyprland desktop for the ASUS ROG Zephyrus G16**
 
-*Greyscale from border to browser. No colour, no noise.*
+*Greyscale from border to browser. No colour, No noise, Silence.*
 
 <br>
 
